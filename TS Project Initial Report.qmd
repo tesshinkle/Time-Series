@@ -1,0 +1,43 @@
+---
+title: "TS Project initial Report"
+format: docx
+editor: visual
+---
+
+The data is from the UN Comtrade Database, accessed from a Tidy Tuesday challenge. The data is over the Lesotho Wool Trade from 2010 to 2024. Our objective is to understand the patterns of the Lesotho Wool Trade.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+require(tidyverse)
+require(TSA)
+
+library(readr)
+basotho_wool <- read_csv("basotho_wool.csv")
+
+basotho_wool = basotho_wool |>
+  select(ref_year, ref_month, net_wgt) |>
+  group_by(ref_year, ref_month) |>
+  summarise(total_wgt = sum(net_wgt, na.rm = TRUE), .groups = "drop")
+
+ts_wool = basotho_wool |>
+  select(total_wgt)
+
+ts_wool = ts(ts_wool)
+
+```
+
+The time series plot is below.
+
+```{r}
+plot(ts_wool)
+```
+
+The ACF and PACF is below.
+
+```{r}
+par(mfrow = c(1,2))
+acf(ts_wool)
+pacf(ts_wool)
+```
