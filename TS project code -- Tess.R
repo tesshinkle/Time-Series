@@ -18,4 +18,11 @@ ts_wool = ts(ts_wool)
 plot(ts_wool)
 
 acf(ts_wool)
+acf(diff(ts_wool))
+
 pacf(ts_wool)
+
+eacf(ts_wool)
+
+ts.plot(diff(ts_wool))
+ts.plot(diff(log(ts_wool)))
